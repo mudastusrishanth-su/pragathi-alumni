@@ -11,31 +11,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const form = document.getElementById("regForm");
+// ✅ WAIT FOR PAGE LOAD
+window.addEventListener("DOMContentLoaded", () => {
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  const form = document.getElementById("regForm");
 
-  const inputs = form.querySelectorAll("input, select, textarea");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  await addDoc(collection(db, "alumni"), {
-    name: inputs[0].value,
-    email: inputs[1].value,
-    batch: inputs[2].value,
-    role: inputs[3].value,
-    location: inputs[4].value,
-    message: inputs[5].value,
-    createdAt: new Date()
-  });
+      const inputs = form.querySelectorAll("input, select, textarea");
 
-  alert("✅ Registered Successfully!");
-  form.reset();
+      await addDoc(collection(db, "alumni"), {
+        name: inputs[0].value,
+        email: inputs[1].value,
+        batch: inputs[2].value,
+        role: inputs[3].value,
+        location: inputs[4].value,
+        message: inputs[5].value,
+        createdAt: new Date()
+      });
+
+      alert("✅ Registered Successfully!");
+      form.reset();
+      loadAlumni();
+    });
+  }
+
   loadAlumni();
 });
 
+// LOAD DATA
 async function loadAlumni() {
   const snapshot = await getDocs(collection(db, "alumni"));
   const grid = document.getElementById("alumniGrid");
+
+  if (!grid) return;
 
   grid.innerHTML = "";
 
@@ -52,6 +63,4 @@ async function loadAlumni() {
     `;
   });
 }
-
-loadAlumni();
 </script>
