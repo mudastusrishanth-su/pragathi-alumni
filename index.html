@@ -2,21 +2,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ✅ YOUR CONFIG (already added)
 const firebaseConfig = {
   apiKey: "AIzaSyALHYLUPn7gZ-5noOG5EeuHa6DZXtrStkM",
   authDomain: "pragathi-alumni.firebaseapp.com",
-  projectId: "pragathi-alumni",
-  storageBucket: "pragathi-alumni.firebasestorage.app",
-  messagingSenderId: "130447613537",
-  appId: "1:130447613537:web:006ff8421beddd32795420",
-  measurementId: "G-QG1C26KV14"
+  projectId: "pragathi-alumni"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔥 FORM SUBMIT (SAVE DATA)
 const form = document.getElementById("regForm");
 
 form.addEventListener("submit", async (e) => {
@@ -24,7 +18,7 @@ form.addEventListener("submit", async (e) => {
 
   const inputs = form.querySelectorAll("input, select, textarea");
 
-  const data = {
+  await addDoc(collection(db, "alumni"), {
     name: inputs[0].value,
     email: inputs[1].value,
     batch: inputs[2].value,
@@ -32,38 +26,32 @@ form.addEventListener("submit", async (e) => {
     location: inputs[4].value,
     message: inputs[5].value,
     createdAt: new Date()
-  };
+  });
 
-  await addDoc(collection(db, "alumni"), data);
-
-  alert("✅ Registration Successful!");
-
+  alert("✅ Registered Successfully!");
   form.reset();
   loadAlumni();
 });
 
-// 🔥 LOAD DATA (LIVE DIRECTORY)
 async function loadAlumni() {
-  const querySnapshot = await getDocs(collection(db, "alumni"));
+  const snapshot = await getDocs(collection(db, "alumni"));
   const grid = document.getElementById("alumniGrid");
 
   grid.innerHTML = "";
 
-  querySnapshot.forEach((doc) => {
+  snapshot.forEach((doc) => {
     const a = doc.data();
 
     grid.innerHTML += `
       <div class="alumni-card">
         <div class="alumni-avatar">${a.name[0]}</div>
-        <div class="alumni-batch">Class of '${a.batch.slice(-2)}</div>
         <div class="alumni-name">${a.name}</div>
         <div class="alumni-role">${a.role || ""}</div>
-        <div class="alumni-email">✉️ ${a.email}</div>
+        <div>${a.email}</div>
       </div>
     `;
   });
 }
 
-// INITIAL LOAD
 loadAlumni();
 </script>
