@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pragathi Alumni</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- HERO -->
+<section class="text-center py-16 bg-black text-white">
+  <h1 class="text-4xl font-bold">Pragathi Alumni Network</h1>
+  <p class="mt-4 text-gray-300">Connect with your batchmates</p>
+</section>
+
+<!-- REGISTER -->
+<section class="p-6 max-w-xl mx-auto bg-white mt-10 rounded shadow">
+  <h2 class="text-2xl font-semibold mb-4">Register</h2>
+
+  <form id="regForm" class="space-y-4">
+    <input type="text" placeholder="Full Name" class="w-full p-2 border rounded" required />
+    <input type="email" placeholder="Email" class="w-full p-2 border rounded" required />
+    <input type="text" placeholder="Batch Year" class="w-full p-2 border rounded" required />
+    <input type="text" placeholder="Profession" class="w-full p-2 border rounded" />
+    <input type="text" placeholder="Location" class="w-full p-2 border rounded" />
+    <textarea placeholder="Message" class="w-full p-2 border rounded"></textarea>
+
+    <button class="w-full bg-black text-white p-2 rounded">
+      Submit
+    </button>
+  </form>
+</section>
+
+<!-- DIRECTORY -->
+<section class="p-6 max-w-5xl mx-auto mt-10">
+  <h2 class="text-2xl font-semibold mb-6 text-center">Alumni Directory</h2>
+  <div id="alumniGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+</section>
+
+<!-- FIREBASE SCRIPT -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyALHYLUPn7gZ-5noOG5EeuHa6DZXtrStkM",
+  authDomain: "pragathi-alumni.firebaseapp.com",
+  projectId: "pragathi-alumni"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("regForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const inputs = form.querySelectorAll("input, textarea");
+
+    await addDoc(collection(db, "alumni"), {
+      name: inputs[0].value,
+      email: inputs[1].value,
+      batch: inputs[2].value,
+      role: inputs[3].value,
+      location: inputs[4].value,
+      message: inputs[5].value,
+      createdAt: new Date()
+    });
+
+    alert("✅ Registered Successfully!");
+    form.reset();
+
+    loadAlumni();
+  });
+
+  loadAlumni();
+});
+
+async function loadAlumni() {
+  const snapshot = await getDocs(collection(db, "alumni"));
+  const grid = document.getElementById("alumniGrid");
+
+  grid.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+    const a = doc.data();
+
+    grid.innerHTML += `
+      <div class="p-4 bg-white shadow rounded">
+        <h3 class="font-bold text-lg">${a.name}</h3>
+        <p class="text-sm text-gray-600">${a.role || ""}</p>
+        <p class="text-sm">${a.email}</p>
+        <p class="text-xs text-gray-500">Batch: ${a.batch}</p>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
