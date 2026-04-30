@@ -8,52 +8,84 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body { background:#080f1e; color:white; font-family:sans-serif; }
-.section { display:none; }
-.section.active { display:block; }
-.nav-btn { cursor:pointer; padding:8px 16px; }
-.nav-btn.active { color:#c9982a; }
-.card { background:#111827; padding:16px; border-radius:12px; }
+body {
+  background: #010101;
+  color: white;
+  font-family: sans-serif;
+}
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg,#FA93FA,#C967E8,#983AD6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="flex justify-between p-4 bg-black">
-  <h1 class="font-bold">Pragathi Alumni</h1>
-  <div class="flex gap-4">
-    <span class="nav-btn active" onclick="navigate('home')">Home</span>
-    <span class="nav-btn" onclick="navigate('directory')">Directory</span>
-    <span class="nav-btn" onclick="navigate('register')">Register</span>
+<!-- HERO -->
+<section class="text-center py-24 px-6">
+  
+  <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
+    <span class="text-sm text-white/70">Used by founders. Loved by devs.</span>
   </div>
-</div>
 
-<!-- HOME -->
-<section id="home" class="section active text-center p-10">
-  <h2 class="text-4xl font-bold">Welcome Back, Champs</h2>
+  <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+    <span class="gradient-text">Your Vision</span><br>
+    <span class="gradient-text">Our Digital Reality.</span>
+  </h1>
+
+  <p class="mt-6 text-white/70 max-w-xl mx-auto">
+    Reconnect with Pragathi alumni, share memories, and grow your network.
+  </p>
+
+  <button onclick="navigate('register')" 
+    class="mt-8 px-6 py-3 bg-white text-black rounded-full font-semibold">
+    Join Now
+  </button>
+
 </section>
 
+<!-- NAV -->
+<div class="flex justify-center gap-6 mb-10 text-white/70">
+  <button onclick="navigate('home')">Home</button>
+  <button onclick="navigate('directory')">Directory</button>
+  <button onclick="navigate('register')">Register</button>
+</div>
+
 <!-- DIRECTORY -->
-<section id="directory" class="section p-6">
-  <h2 class="text-2xl mb-4">Alumni Directory</h2>
-  <div id="alumniGrid" class="grid md:grid-cols-3 gap-4"></div>
+<section id="directory" class="hidden px-6 max-w-6xl mx-auto">
+  <h2 class="text-2xl mb-6">Alumni Directory</h2>
+  <div id="alumniGrid" class="grid md:grid-cols-3 gap-6"></div>
 </section>
 
 <!-- REGISTER -->
-<section id="register" class="section p-6">
-  <h2 class="text-2xl mb-4">Register</h2>
+<section id="register" class="hidden px-6 max-w-xl mx-auto">
 
-  <form id="regForm" class="space-y-3 max-w-md">
-    <input class="w-full p-2 text-black" placeholder="Name" required>
-    <input class="w-full p-2 text-black" placeholder="Email" required>
-    <input class="w-full p-2 text-black" placeholder="Batch" required>
-    <input class="w-full p-2 text-black" placeholder="Role">
-    <input class="w-full p-2 text-black" placeholder="Location">
-    <textarea class="w-full p-2 text-black" placeholder="Message"></textarea>
+  <div class="glass p-6 rounded-2xl">
+    <h2 class="text-2xl mb-4">Join Alumni</h2>
 
-    <button class="bg-yellow-500 px-4 py-2 rounded">Submit</button>
-  </form>
+    <form id="regForm" class="space-y-3">
+      <input class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Name" required>
+      <input class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Email" required>
+      <input class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Batch" required>
+      <input class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Role">
+      <input class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Location">
+      <textarea class="w-full p-3 rounded bg-black/40 border border-white/10" placeholder="Message"></textarea>
+
+      <button class="w-full py-3 rounded-full bg-gradient-to-r from-[#FA93FA] via-[#C967E8] to-[#983AD6]">
+        Submit
+      </button>
+    </form>
+  </div>
+
 </section>
 
 <!-- FIREBASE -->
@@ -109,22 +141,24 @@ async function loadAlumni() {
     const a = doc.data();
 
     grid.innerHTML += `
-      <div class="card">
+      <div class="glass p-4 rounded-xl">
         <h3 class="font-bold text-lg">${a.name}</h3>
-        <p>${a.role || ""}</p>
-        <p>${a.email}</p>
-        <p class="text-sm text-gray-400">Batch ${a.batch}</p>
+        <p class="text-white/60">${a.role || ""}</p>
+        <p class="text-sm">${a.email}</p>
+        <p class="text-xs text-white/40">Batch ${a.batch}</p>
       </div>
     `;
   });
 }
 
-// NAVIGATION
+// NAV
 window.navigate = function(id) {
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  document.getElementById("directory").classList.add("hidden");
+  document.getElementById("register").classList.add("hidden");
 
-  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+  if (id !== "home") {
+    document.getElementById(id).classList.remove("hidden");
+  }
 };
 </script>
 
