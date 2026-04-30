@@ -1,45 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pragathi Alumni</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pragathi Alumni</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background:#080f1e; color:white; font-family:sans-serif; }
+.section { display:none; }
+.section.active { display:block; }
+.nav-btn { cursor:pointer; padding:8px 16px; }
+.nav-btn.active { color:#c9982a; }
+.card { background:#111827; padding:16px; border-radius:12px; }
+</style>
 </head>
 
-<body class="bg-gray-100">
+<body>
 
-<!-- HERO -->
-<section class="text-center py-16 bg-black text-white">
-  <h1 class="text-4xl font-bold">Pragathi Alumni Network</h1>
-  <p class="mt-4 text-gray-300">Connect with your batchmates</p>
-</section>
+<!-- NAV -->
+<div class="flex justify-between p-4 bg-black">
+  <h1 class="font-bold">Pragathi Alumni</h1>
+  <div class="flex gap-4">
+    <span class="nav-btn active" onclick="navigate('home')">Home</span>
+    <span class="nav-btn" onclick="navigate('directory')">Directory</span>
+    <span class="nav-btn" onclick="navigate('register')">Register</span>
+  </div>
+</div>
 
-<!-- REGISTER -->
-<section class="p-6 max-w-xl mx-auto bg-white mt-10 rounded shadow">
-  <h2 class="text-2xl font-semibold mb-4">Register</h2>
-
-  <form id="regForm" class="space-y-4">
-    <input type="text" placeholder="Full Name" class="w-full p-2 border rounded" required />
-    <input type="email" placeholder="Email" class="w-full p-2 border rounded" required />
-    <input type="text" placeholder="Batch Year" class="w-full p-2 border rounded" required />
-    <input type="text" placeholder="Profession" class="w-full p-2 border rounded" />
-    <input type="text" placeholder="Location" class="w-full p-2 border rounded" />
-    <textarea placeholder="Message" class="w-full p-2 border rounded"></textarea>
-
-    <button class="w-full bg-black text-white p-2 rounded">
-      Submit
-    </button>
-  </form>
+<!-- HOME -->
+<section id="home" class="section active text-center p-10">
+  <h2 class="text-4xl font-bold">Welcome Back, Champs</h2>
 </section>
 
 <!-- DIRECTORY -->
-<section class="p-6 max-w-5xl mx-auto mt-10">
-  <h2 class="text-2xl font-semibold mb-6 text-center">Alumni Directory</h2>
-  <div id="alumniGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+<section id="directory" class="section p-6">
+  <h2 class="text-2xl mb-4">Alumni Directory</h2>
+  <div id="alumniGrid" class="grid md:grid-cols-3 gap-4"></div>
 </section>
 
-<!-- FIREBASE SCRIPT -->
+<!-- REGISTER -->
+<section id="register" class="section p-6">
+  <h2 class="text-2xl mb-4">Register</h2>
+
+  <form id="regForm" class="space-y-3 max-w-md">
+    <input class="w-full p-2 text-black" placeholder="Name" required>
+    <input class="w-full p-2 text-black" placeholder="Email" required>
+    <input class="w-full p-2 text-black" placeholder="Batch" required>
+    <input class="w-full p-2 text-black" placeholder="Role">
+    <input class="w-full p-2 text-black" placeholder="Location">
+    <textarea class="w-full p-2 text-black" placeholder="Message"></textarea>
+
+    <button class="bg-yellow-500 px-4 py-2 rounded">Submit</button>
+  </form>
+</section>
+
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -72,10 +89,11 @@ window.addEventListener("DOMContentLoaded", () => {
       createdAt: new Date()
     });
 
-    alert("✅ Registered Successfully!");
+    alert("✅ Registered!");
     form.reset();
 
     loadAlumni();
+    navigate("directory");
   });
 
   loadAlumni();
@@ -91,15 +109,23 @@ async function loadAlumni() {
     const a = doc.data();
 
     grid.innerHTML += `
-      <div class="p-4 bg-white shadow rounded">
+      <div class="card">
         <h3 class="font-bold text-lg">${a.name}</h3>
-        <p class="text-sm text-gray-600">${a.role || ""}</p>
-        <p class="text-sm">${a.email}</p>
-        <p class="text-xs text-gray-500">Batch: ${a.batch}</p>
+        <p>${a.role || ""}</p>
+        <p>${a.email}</p>
+        <p class="text-sm text-gray-400">Batch ${a.batch}</p>
       </div>
     `;
   });
 }
+
+// NAVIGATION
+window.navigate = function(id) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+};
 </script>
 
 </body>
