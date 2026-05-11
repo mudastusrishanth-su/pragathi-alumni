@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pragathi Alumni – Centenary Colony, Peddapalli</title>
+    <meta name="description" content="Join Pragathi High School (Centenary Colony, Peddapalli) alumni network. Register, attend reunions, and stay updated on events. Initiated by 2009 SSC Batch.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f1f3d;
+            --navy-light: #1a3260;
+            --gold: #c9982a;
+            --gold-light: #e8b84b;
+            --gold-pale: #f5e6c0;
+            --cream: #faf7f2;
+            --dark: #080f1e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+        nav.scrolled {
+            background: rgba(8,15,30,0.95);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(201,152,42,0.2);
+        }
+        .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 76px; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--gold-light); letter-spacing: 0.04em; cursor: pointer; text-decoration: none; }
+        .logo span { color: rgba(255,255,255,0.6); font-weight: 400; font-style: italic; font-size: 0.85rem; display: block; letter-spacing: 0.1em; line-height: 1; }
+        .nav-links { display: flex; gap: 0.25rem; align-items: center; }
+        .nav-btn { background: none; border: none; color: rgba(255,255,255,0.75); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; letter-spacing: 0.03em; }
+        .nav-btn:hover, .nav-btn.active { color: var(--gold-light); }
+        .nav-cta { background: var(--gold) !important; color: var(--dark) !important; font-weight: 700 !important; padding: 0.5rem 1.5rem !important; border-radius: 50px !important; transition: all 0.25s !important; }
+        .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,152,42,0.3); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+        .hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+        .mobile-menu { display: none; background: var(--dark); padding: 1rem 1.5rem 1.5rem; border-top: 1px solid rgba(201,152,42,0.15); }
+        .mobile-menu.open { display: block; }
+        .mobile-menu button { display: block; width: 100%; text-align: left; background: none; border: none; color: #cbd5e1; font-family: 'DM Sans', sans-serif; font-size: 1rem; padding: 0.75rem 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* ── SECTIONS ── */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ── HERO ── */
+        .hero { position: relative; height: 100vh; min-height: 640px; display: flex; align-items: center; justify-content: center; background: var(--dark); overflow: hidden; }
+        .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.22; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,15,30,0.88) 0%, rgba(15,31,61,0.65) 50%, rgba(8,15,30,0.92) 100%); }
+        .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; background: var(--gold); opacity: 0; animation: float-particle 8s infinite; }
+        @keyframes float-particle {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.1; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
+        }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,152,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,152,42,0.04) 1px, transparent 1px); background-size: 60px 60px; animation: grid-shift 20s linear infinite; }
+        @keyframes grid-shift { 0%{background-position:0 0} 100%{background-position:60px 60px} }
+        .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 1.5rem; max-width: 940px; }
+        .hero-badge {
+            display: inline-block; background: rgba(201,152,42,0.15); border: 1px solid rgba(201,152,42,0.4);
+            color: var(--gold-light); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em;
+            text-transform: uppercase; padding: 0.45rem 1.4rem; border-radius: 50px; margin-bottom: 2rem;
+            animation: badge-in 1s ease 0.3s both;
+        }
+        @keyframes badge-in { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+        .hero h1 { font-size: clamp(3rem, 9vw, 6.5rem); font-weight: 700; color: #fff; line-height: 1.02; margin-bottom: 0.4rem; animation: title-in 1s ease 0.5s both; }
+        @keyframes title-in { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        .hero h1 em { color: var(--gold-light); font-style: italic; display: block; }
+        .hero-sub { font-size: clamp(0.95rem, 2.2vw, 1.25rem); color: rgba(255,255,255,0.65); margin: 1.5rem auto 2.75rem; font-weight: 300; line-height: 1.7; max-width: 580px; animation: sub-in 1s ease 0.7s both; }
+        @keyframes sub-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; animation: btns-in 1s ease 0.9s both; }
+        @keyframes btns-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .btn-primary { background: var(--gold); color: var(--dark); font-weight: 700; font-size: 0.95rem; padding: 0.9rem 2.4rem; border-radius: 50px; border: none; cursor: pointer; letter-spacing: 0.05em; transition: all 0.3s; position: relative; overflow: hidden; }
+        .btn-primary::after { content:''; position:absolute; inset:0; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.5s; }
+        .btn-primary:hover::after { transform: translateX(100%); }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 16px 48px rgba(201,152,42,0.35); }
+        .btn-secondary { background: transparent; color: #fff; font-weight: 500; font-size: 0.95rem; padding: 0.9rem 2.4rem; border-radius: 50px; border: 2px solid rgba(255,255,255,0.3); cursor: pointer; letter-spacing: 0.05em; transition: all 0.3s; }
+        .btn-secondary:hover { border-color: var(--gold-light); color: var(--gold-light); transform: translateY(-2px); }
+        .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.35); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; animation: scroll-bounce 2.5s ease-in-out infinite; }
+        .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, var(--gold)); }
+        @keyframes scroll-bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+
+        /* ── STATS BAR ── */
+        .stats-bar { background: var(--navy); padding: 3rem 1.5rem; position: relative; overflow: hidden; }
+        .stats-bar::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, rgba(201,152,42,0.07), transparent 70%); }
+        .stats-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2rem; text-align: center; position: relative; }
+        .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+        .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.4rem; }
+        .stat-divider { width: 1px; background: rgba(201,152,42,0.2); display: none; }
+
+        /* ── IMAGE CAROUSEL ── */
+        .carousel-section { background: var(--dark); padding: 5rem 0; overflow: hidden; }
+        .carousel-header { text-align: center; margin-bottom: 3rem; padding: 0 1.5rem; }
+        .section-tag { display: inline-block; color: var(--gold); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.6rem; }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: #fff; line-height: 1.1; }
+        .section-title-dark { color: var(--navy); }
+        .section-divider { width: 56px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); margin: 1rem auto 0; border-radius: 2px; }
+
+        .track-wrapper { position: relative; }
+        .track-wrapper::before, .track-wrapper::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+        }
+        .track-wrapper::before { left: 0; background: linear-gradient(to right, var(--dark), transparent); }
+        .track-wrapper::after { right: 0; background: linear-gradient(to left, var(--dark), transparent); }
+
+        .carousel-track { display: flex; gap: 1.25rem; width: max-content; animation: scroll-left 35s linear infinite; padding: 0.5rem 0; }
+        .carousel-track:hover { animation-play-state: paused; }
+        .carousel-track-reverse { animation: scroll-right 40s linear infinite; }
+        .carousel-track-reverse:hover { animation-play-state: paused; }
+        @keyframes scroll-left { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        @keyframes scroll-right { 0%{transform:translateX(-50%)} 100%{transform:translateX(0)} }
+
+        .carousel-card {
+            width: 280px; height: 190px; border-radius: 16px; overflow: hidden; flex-shrink: 0;
+            position: relative; cursor: pointer; border: 1px solid rgba(201,152,42,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .carousel-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); border-color: rgba(201,152,42,0.4); }
+        .carousel-img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+        .carousel-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(to top, rgba(8,15,30,0.9), transparent); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; }
+
+        /* Carousel colors for placeholders */
+        .c1{background:linear-gradient(135deg,#1a2a4a,#0f3460)}
+        .c2{background:linear-gradient(135deg,#2d1b00,#7c4500)}
+        .c3{background:linear-gradient(135deg,#0f2a1a,#1a5c30)}
+        .c4{background:linear-gradient(135deg,#1a0a2a,#4a1a6a)}
+        .c5{background:linear-gradient(135deg,#2a0a0a,#6a1a1a)}
+        .c6{background:linear-gradient(135deg,#0a1a2a,#1a4a6a)}
+        .c7{background:linear-gradient(135deg,#1a1a0a,#4a4a0a)}
+        .c8{background:linear-gradient(135deg,#0a2a1a,#0a6a3a)}
+
+        /* ── PAGE WRAP ── */
+        .page-wrap { max-width: 1280px; margin: 0 auto; padding: 6rem 1.5rem 5rem; }
+        .page-wrap-sm { max-width: 860px; margin: 0 auto; padding: 6rem 1.5rem 5rem; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-sub { font-size: 1rem; color: #64748b; margin-top: 0.85rem; font-weight: 300; line-height: 1.6; }
+
+        /* ── FEATURES GRID ── */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .feature-card {
+            background: #fff; border-radius: 20px; padding: 2.25rem; border: 1px solid rgba(201,152,42,0.1);
+            text-align: center; box-shadow: 0 4px 24px rgba(15,31,61,0.05);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
+        }
+        .feature-card::before { content:''; position:absolute; inset:0; background: linear-gradient(135deg, rgba(201,152,42,0.04), transparent); opacity:0; transition: opacity 0.3s; }
+        .feature-card:hover::before { opacity:1; }
+        .feature-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 24px 64px rgba(15,31,61,0.12); border-color: rgba(201,152,42,0.3); }
+        .feature-icon { font-size: 2.8rem; margin-bottom: 1.1rem; display: block; transition: transform 0.3s; }
+        .feature-card:hover .feature-icon { transform: scale(1.15) rotate(-5deg); }
+        .feature-card h3 { font-size: 1.35rem; font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; }
+        .feature-card p { font-size: 0.875rem; color: #64748b; line-height: 1.7; }
+
+        /* ── ABOUT ── */
+        .about-bg { background: #fff; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+        .about-img-box {
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            border-radius: 24px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+            font-size: 7rem; border: 1px solid rgba(201,152,42,0.2); position: relative; overflow: hidden;
+        }
+        .about-img-box::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 30% 70%, rgba(201,152,42,0.12), transparent 60%); }
+        .about-img-box::after { content:''; position:absolute; top:-50%; right:-50%; width:100%; height:100%; background: radial-gradient(circle, rgba(201,152,42,0.06), transparent 60%); animation: shimmer 4s ease-in-out infinite alternate; }
+        @keyframes shimmer { 0%{opacity:0.5;transform:scale(1)} 100%{opacity:1;transform:scale(1.2)} }
+        .about-badge {
+            position: absolute; bottom: -1.5rem; right: -1.5rem; background: var(--gold); color: var(--dark);
+            padding: 1rem 1.5rem; border-radius: 14px; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 700;
+            box-shadow: 0 8px 32px rgba(201,152,42,0.35); line-height: 1.3; animation: pulse-badge 3s ease-in-out infinite;
+        }
+        @keyframes pulse-badge { 0%,100%{box-shadow:0 8px 32px rgba(201,152,42,0.35)} 50%{box-shadow:0 12px 48px rgba(201,152,42,0.55)} }
+        .about-text h2 { font-size: 2.6rem; font-weight: 700; color: var(--navy); line-height: 1.15; margin-bottom: 1.5rem; }
+        .about-text p { color: #475569; line-height: 1.85; margin-bottom: 1rem; font-size: 0.975rem; }
+        .about-highlights { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .about-highlights li { display: flex; align-items: center; gap: 0.85rem; color: #334155; font-size: 0.9rem; padding: 0.5rem 0.75rem; border-radius: 8px; transition: background 0.2s; }
+        .about-highlights li:hover { background: rgba(201,152,42,0.06); }
+        .about-highlights li::before { content:'✦'; color: var(--gold); font-size: 0.65rem; flex-shrink: 0; }
+
+        /* ── DIRECTORY ── */
+        .directory-bg { background: #f1f5f9; }
+        .search-box { position: relative; max-width: 480px; margin: 0 auto 3rem; }
+        .search-box input { width: 100%; padding: 1rem 1.25rem 1rem 3.25rem; border: 2px solid #e2e8f0; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.925rem; outline: none; transition: all 0.25s; background: #fff; box-shadow: 0 4px 16px rgba(15,31,61,0.06); }
+        .search-box input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,152,42,0.12); }
+        .search-icon { position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        .alumni-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        .alumni-card {
+            background: #fff; border-radius: 18px; padding: 1.75rem;
+            border: 1px solid rgba(201,152,42,0.1); box-shadow: 0 2px 12px rgba(15,31,61,0.05);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
+        }
+        .alumni-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+        .alumni-card:hover::after { transform: scaleX(1); }
+        .alumni-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(15,31,61,0.12); }
+        .alumni-avatar { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; border: 2px solid rgba(201,152,42,0.2); transition: transform 0.3s; }
+        .alumni-card:hover .alumni-avatar { transform: scale(1.1) rotate(5deg); }
+        .alumni-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+        .alumni-role { font-size: 0.82rem; color: var(--gold); font-weight: 600; margin-bottom: 0.6rem; }
+        .alumni-batch { display: inline-block; background: rgba(201,152,42,0.1); color: #92590a; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.8rem; border-radius: 50px; margin-bottom: 0.75rem; }
+        .alumni-email { font-size: 0.78rem; color: #64748b; display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; }
+
+        /* ── EVENTS ── */
+        .events-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+        .events-col-title { font-size: 1.5rem; color: var(--navy); margin-bottom: 1.75rem; display: flex; align-items: center; gap: 0.6rem; }
+        .event-card {
+            background: #fff; border-radius: 18px; padding: 1.75rem; display: flex; gap: 1.5rem;
+            margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(15,31,61,0.05);
+            border: 1px solid rgba(201,152,42,0.08); transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .event-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: linear-gradient(to bottom, var(--gold), var(--gold-light)); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
+        .event-card:hover::before { transform: scaleY(1); }
+        .event-card:hover { transform: translateX(6px); box-shadow: 0 8px 32px rgba(15,31,61,0.1); border-color: rgba(201,152,42,0.2); }
+        .event-date-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: #fff; border-radius: 12px; padding: 0.875rem 1rem; text-align: center; min-width: 72px; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0; }
+        .event-date-box .month { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-light); }
+        .event-date-box .day { font-family: 'Cormorant Garamond', serif; font-size: 2.1rem; font-weight: 700; line-height: 1; }
+        .event-date-box .year { font-size: 0.62rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+        .event-info h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; }
+        .event-info .location { font-size: 0.78rem; color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; }
+        .event-info p { font-size: 0.84rem; color: #64748b; line-height: 1.6; margin-bottom: 0.75rem; }
+        .rsvp-btn { background: none; border: 1.5px solid var(--gold); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.35rem 1.1rem; border-radius: 50px; cursor: pointer; transition: all 0.25s; letter-spacing: 0.04em; }
+        .rsvp-btn:hover { background: var(--gold); color: var(--dark); transform: scale(1.05); }
+        .news-card { background: #fff; border-radius: 18px; overflow: hidden; margin-bottom: 1.25rem; border: 1px solid rgba(201,152,42,0.08); box-shadow: 0 2px 12px rgba(15,31,61,0.05); transition: all 0.3s; cursor: pointer; }
+        .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(15,31,61,0.1); }
+        .news-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
+        .news-tag { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: var(--dark); font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 50px; letter-spacing: 0.06em; }
+        .news-body { padding: 1.25rem; }
+        .news-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; line-height: 1.35; }
+        .news-body p { font-size: 0.82rem; color: #64748b; line-height: 1.6; }
+
+        /* ── REGISTER ── */
+        .register-bg { background: var(--dark); min-height: 100vh; position: relative; overflow: hidden; }
+        .register-bg::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background: radial-gradient(circle, rgba(201,152,42,0.08), transparent 70%); }
+        .register-bg::after { content:''; position:absolute; bottom:-200px; left:-200px; width:500px; height:500px; background: radial-gradient(circle, rgba(15,31,61,0.4), transparent 70%); }
+        .form-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,152,42,0.18); border-radius: 28px; padding: 3rem; backdrop-filter: blur(10px); position: relative; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #94a3b8; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.9rem 1.1rem; background: rgba(255,255,255,0.05);
+            border: 1.5px solid rgba(255,255,255,0.08); border-radius: 12px;
+            color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.925rem;
+            outline: none; transition: all 0.25s;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #334155; }
+        .form-group select option { background: var(--dark); color: #fff; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: rgba(201,152,42,0.06); box-shadow: 0 0 0 3px rgba(201,152,42,0.1); }
+        .form-group textarea { resize: none; height: 110px; }
+        .submit-btn { width: 100%; padding: 1.1rem; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.3s; position: relative; overflow: hidden; }
+        .submit-btn::after { content:''; position:absolute; inset:0; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.5s; }
+        .submit-btn:hover::after { transform: translateX(100%); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(201,152,42,0.3); }
+        .success-box { text-align: center; padding: 3.5rem 1.5rem; display: none; }
+        .success-icon { font-size: 4.5rem; margin-bottom: 1.25rem; animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes pop-in { from{transform:scale(0) rotate(-10deg)} to{transform:scale(1) rotate(0)} }
+        .success-box h3 { font-size: 2.2rem; color: var(--gold-light); margin-bottom: 0.75rem; }
+        .success-box p { color: #64748b; font-size: 0.95rem; }
+
+        /* ── FOOTER ── */
+        footer { background: #040a14; border-top: 1px solid rgba(201,152,42,0.12); padding: 5rem 1.5rem 2.5rem; }
+        .footer-inner { max-width: 1280px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--gold-light); margin-bottom: 1rem; }
+        .footer-desc { font-size: 0.875rem; color: #475569; line-height: 1.75; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.75rem; margin-top: 1.75rem; }
+        .social-link { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.25s; cursor: pointer; text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 700; }
+        .social-link:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); transform: translateY(-3px); }
+        .footer-col h5 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+        .footer-links button { background: none; border: none; color: #475569; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; text-align: left; padding: 0; }
+        .footer-links button:hover { color: var(--gold-light); transform: translateX(4px); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-copy { font-size: 0.78rem; color: #334155; }
+        .initiated-badge { background: rgba(201,152,42,0.1); border: 1px solid rgba(201,152,42,0.22); color: var(--gold-light); font-size: 0.78rem; font-weight: 700; padding: 0.45rem 1.25rem; border-radius: 50px; letter-spacing: 0.06em; animation: glow-badge 3s ease-in-out infinite alternate; }
+        @keyframes glow-badge { 0%{box-shadow:0 0 0 rgba(201,152,42,0)} 100%{box-shadow:0 0 16px rgba(201,152,42,0.2)} }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .events-layout { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+            .about-badge { bottom: 0.5rem; right: 0.5rem; }
+        }
+
+        /* ── COUNTER ANIMATION ── */
+        .counting { display: inline-block; }
+
+        /* ── MISSION BOX ── */
+        .mission-box {
+            margin-top: 5rem; background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            border-radius: 24px; padding: 4rem; color: #fff; text-align: center;
+            position: relative; overflow: hidden; border: 1px solid rgba(201,152,42,0.15);
+        }
+        .mission-box::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 50% 50%, rgba(201,152,42,0.08), transparent 65%); }
+        .mission-box blockquote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.8; max-width: 720px; margin: 0 auto; position: relative; }
+        .mission-box blockquote::before { content:'"'; font-size: 5rem; color: rgba(201,152,42,0.2); position: absolute; top:-2rem; left:-1rem; font-family: 'Cormorant Garamond', serif; line-height:1; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a class="logo" onclick="navigate('home')" href="#">
+            Pragathi Alumni
+            <span>Centenary Colony · Peddapalli</span>
+        </a>
+        <div class="nav-links">
+            <button class="nav-btn active" data-target="home" onclick="navigate('home')">Home</button>
+            <button class="nav-btn" data-target="about" onclick="navigate('about')">Our School</button>
+            <button class="nav-btn" data-target="directory" onclick="navigate('directory')">Directory</button>
+            <button class="nav-btn" data-target="events" onclick="navigate('events')">Events</button>
+            <button class="nav-btn nav-cta" data-target="register" onclick="navigate('register')">Join Network</button>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button onclick="navigate('home')">Home</button>
+        <button onclick="navigate('about')">Our School</button>
+        <button onclick="navigate('directory')">Directory</button>
+        <button onclick="navigate('events')">Events & News</button>
+        <button onclick="navigate('register')" style="color:var(--gold-light);font-weight:700;border-bottom:none;">Join Network</button>
+    </div>
+</nav>
+
+<!-- ══════════════ HOME ══════════════ -->
+<section id="home" class="section active">
+
+    <!-- HERO -->
+    <div class="hero">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="https://cdn.coverr.co/videos/coverr-students-walking-in-the-hallway-5246/1080p.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">⭐ Initiated by 2009 SSC Batch · Peddapalli, Telangana</div>
+            <h1>Welcome Back,<em>Pragathi Champs!</em></h1>
+            <p class="hero-sub">Reconnect with classmates, celebrate achievements, and carry forward the legacy of Pragathi High School — together, always.</p>
+            <div class="hero-btns">
+                <button class="btn-primary" onclick="navigate('register')">Register Now</button>
+                <button class="btn-secondary" onclick="navigate('directory')">Explore Directory</button>
+            </div>
+        </div>
+        <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="reveal">
+                <div class="stat-num"><span class="counting" data-target="500">0</span>+</div>
+                <div class="stat-label">Alumni Registered</div>
+            </div>
+            <div class="reveal" style="transition-delay:0.1s">
+                <div class="stat-num"><span class="counting" data-target="15">0</span>+</div>
+                <div class="stat-label">Batch Years</div>
+            </div>
+            <div class="reveal" style="transition-delay:0.2s">
+                <div class="stat-num"><span class="counting" data-target="12">0</span></div>
+                <div class="stat-label">Events Hosted</div>
+            </div>
+            <div class="reveal" style="transition-delay:0.3s">
+                <div class="stat-num"><span class="counting" data-target="8">0</span>+</div>
+                <div class="stat-label">States Represented</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMAGE CAROUSEL — School & Events -->
+    <div class="carousel-section">
+        <div class="carousel-header reveal">
+            <div class="section-tag">Memories & Moments</div>
+            <h2 class="section-title">School Life & Events Gallery</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <!-- Row 1 — School Life -->
+        <div class="track-wrapper" style="margin-bottom:1.25rem;">
+            <div class="carousel-track" id="track1">
+                <div class="carousel-card c1"><div class="carousel-img-placeholder">🏫</div><div class="carousel-label">School Campus</div></div>
+                <div class="carousel-card c2"><div class="carousel-img-placeholder">📚</div><div class="carousel-label">Library & Study Hall</div></div>
+                <div class="carousel-card c3"><div class="carousel-img-placeholder">⚽</div><div class="carousel-label">Sports Day 2019</div></div>
+                <div class="carousel-card c4"><div class="carousel-img-placeholder">🎓</div><div class="carousel-label">Graduation Ceremony</div></div>
+                <div class="carousel-card c5"><div class="carousel-img-placeholder">🏆</div><div class="carousel-label">Annual Prize Day</div></div>
+                <div class="carousel-card c6"><div class="carousel-img-placeholder">🎭</div><div class="carousel-label">Cultural Programme</div></div>
+                <div class="carousel-card c7"><div class="carousel-img-placeholder">🌿</div><div class="carousel-label">School Garden</div></div>
+                <div class="carousel-card c8"><div class="carousel-img-placeholder">🎨</div><div class="carousel-label">Art Exhibition</div></div>
+                <!-- duplicates for seamless loop -->
+                <div class="carousel-card c1"><div class="carousel-img-placeholder">🏫</div><div class="carousel-label">School Campus</div></div>
+                <div class="carousel-card c2"><div class="carousel-img-placeholder">📚</div><div class="carousel-label">Library & Study Hall</div></div>
+                <div class="carousel-card c3"><div class="carousel-img-placeholder">⚽</div><div class="carousel-label">Sports Day 2019</div></div>
+                <div class="carousel-card c4"><div class="carousel-img-placeholder">🎓</div><div class="carousel-label">Graduation Ceremony</div></div>
+                <div class="carousel-card c5"><div class="carousel-img-placeholder">🏆</div><div class="carousel-label">Annual Prize Day</div></div>
+                <div class="carousel-card c6"><div class="carousel-img-placeholder">🎭</div><div class="carousel-label">Cultural Programme</div></div>
+                <div class="carousel-card c7"><div class="carousel-img-placeholder">🌿</div><div class="carousel-label">School Garden</div></div>
+                <div class="carousel-card c8"><div class="carousel-img-placeholder">🎨</div><div class="carousel-label">Art Exhibition</div></div>
+            </div>
+        </div>
+
+        <!-- Row 2 — Alumni Events (reverse direction) -->
+        <div class="track-wrapper">
+            <div class="carousel-track carousel-track-reverse" id="track2">
+                <div class="carousel-card c5"><div class="carousel-img-placeholder">🎉</div><div class="carousel-label">2009 Batch Reunion</div></div>
+                <div class="carousel-card c3"><div class="carousel-img-placeholder">🤝</div><div class="carousel-label">Alumni Meetup 2023</div></div>
+                <div class="carousel-card c1"><div class="carousel-img-placeholder">🍽️</div><div class="carousel-label">Annual Dinner 2024</div></div>
+                <div class="carousel-card c7"><div class="carousel-img-placeholder">💼</div><div class="carousel-label">Career Fair 2024</div></div>
+                <div class="carousel-card c2"><div class="carousel-img-placeholder">🎤</div><div class="carousel-label">Guest Lecture Series</div></div>
+                <div class="carousel-card c4"><div class="carousel-img-placeholder">🏅</div><div class="carousel-label">Achievement Awards</div></div>
+                <div class="carousel-card c6"><div class="carousel-img-placeholder">📸</div><div class="carousel-label">Batch Photo 2010</div></div>
+                <div class="carousel-card c8"><div class="carousel-img-placeholder">🌟</div><div class="carousel-label">Alumni Star Night</div></div>
+                <!-- duplicates -->
+                <div class="carousel-card c5"><div class="carousel-img-placeholder">🎉</div><div class="carousel-label">2009 Batch Reunion</div></div>
+                <div class="carousel-card c3"><div class="carousel-img-placeholder">🤝</div><div class="carousel-label">Alumni Meetup 2023</div></div>
+                <div class="carousel-card c1"><div class="carousel-img-placeholder">🍽️</div><div class="carousel-label">Annual Dinner 2024</div></div>
+                <div class="carousel-card c7"><div class="carousel-img-placeholder">💼</div><div class="carousel-label">Career Fair 2024</div></div>
+                <div class="carousel-card c2"><div class="carousel-img-placeholder">🎤</div><div class="carousel-label">Guest Lecture Series</div></div>
+                <div class="carousel-card c4"><div class="carousel-img-placeholder">🏅</div><div class="carousel-label">Achievement Awards</div></div>
+                <div class="carousel-card c6"><div class="carousel-img-placeholder">📸</div><div class="carousel-label">Batch Photo 2010</div></div>
+                <div class="carousel-card c8"><div class="carousel-img-placeholder">🌟</div><div class="carousel-label">Alumni Star Night</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMUNITY FEATURES -->
+    <div class="page-wrap">
+        <div class="section-header reveal">
+            <div class="section-tag">Why Join Us</div>
+            <h2 class="section-title section-title-dark">Our Vibrant Community</h2>
+            <div class="section-divider"></div>
+            <p class="section-sub">A platform built by alumni, for alumni — to connect, grow, and give back.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal" style="transition-delay:0.05s">
+                <span class="feature-icon">🎓</span>
+                <h3>Connect</h3>
+                <p>Find and reconnect with classmates from every batch across Peddapalli and beyond the globe.</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay:0.15s">
+                <span class="feature-icon">📅</span>
+                <h3>Engage</h3>
+                <p>Attend exclusive alumni events, reunions, and career webinars designed for lifelong bonds.</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay:0.25s">
+                <span class="feature-icon">🏫</span>
+                <h3>Give Back</h3>
+                <p>Mentor current students, contribute to scholarships, and shape the next generation of Pragathi Champs.</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section id="about" class="section about-bg">
+    <div class="page-wrap">
+        <div class="about-grid">
+            <div class="about-visual reveal-left">
+                <div class="about-img-box">🏫<div class="about-badge">Est. Since<br>Decades</div></div>
+            </div>
+            <div class="about-text reveal-right">
+                <div class="section-tag">Our Alma Mater</div>
+                <h2>Pragathi High School</h2>
+                <p style="color:var(--gold);font-weight:600;margin-bottom:1rem;">📍 Centenary Colony, Peddapalli, Telangana</p>
+                <p>For decades, Pragathi High School has been a beacon of knowledge, character building, and community spirit in the heart of Peddapalli. Our school has nurtured countless young minds who have gone on to make a difference in every corner of India and beyond.</p>
+                <p>This alumni platform was initiated by the proud Class of 2009 with a single mission: to unite every Pragathi Champ, celebrate our shared journey, and give back to the institution that shaped us all.</p>
+                <ul class="about-highlights">
+                    <li>Networking & Professional Opportunities</li>
+                    <li>Career Mentorship Programs</li>
+                    <li>Annual Reunion Events</li>
+                    <li>Scholarship & Community Initiatives</li>
+                    <li>Campus Development Contributions</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mission-box reveal">
+            <blockquote>
+                "To build a thriving, supportive alumni community that honours the legacy of Pragathi High School — fostering meaningful connections, celebrating achievements, and empowering every Pragathi Champ to reach their fullest potential."
+            </blockquote>
+            <div style="margin-top:2.5rem;">
+                <button class="btn-primary" onclick="navigate('register')">Join the Mission</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════ DIRECTORY ══════════════ -->
+<section id="directory" class="section directory-bg">
+    <div class="page-wrap">
+        <div class="section-header reveal">
+            <div class="section-tag">Alumni Network</div>
+            <h2 class="section-title section-title-dark">Alumni Directory</h2>
+            <div class="section-divider"></div>
+            <p class="section-sub">Search and connect with fellow Pragathi Champs from every batch.</p>
+        </div>
+        <div class="search-box reveal">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search by name, batch year, or profession...">
+        </div>
+        <div class="alumni-grid" id="alumniGrid"></div>
+    </div>
+</section>
+
+<!-- ══════════════ EVENTS ══════════════ -->
+<section id="events" class="section">
+    <div class="page-wrap">
+        <div class="section-header reveal">
+            <div class="section-tag">Stay Updated</div>
+            <h2 class="section-title section-title-dark">Events & News</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="events-layout">
+            <div class="reveal-left">
+                <h3 class="events-col-title">📅 Upcoming Events</h3>
+                <div class="event-card">
+                    <div class="event-date-box"><span class="month">Oct</span><span class="day">24</span><span class="year">2026</span></div>
+                    <div class="event-info">
+                        <h4>Grand Alumni Meetup</h4>
+                        <div class="location">📍 Centenary Colony Main Ground</div>
+                        <p>The biggest gathering of Pragathi Champs. Food, memories, networking, and joy for all!</p>
+                        <button class="rsvp-btn">RSVP Now →</button>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-date-box"><span class="month">Nov</span><span class="day">15</span><span class="year">2026</span></div>
+                    <div class="event-info">
+                        <h4>Career Guidance Seminar</h4>
+                        <div class="location">💻 Virtual · Zoom</div>
+                        <p>Senior alumni share industry insights and career guidance for recent graduates.</p>
+                        <button class="rsvp-btn">Register →</button>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="event-date-box" style="background:linear-gradient(135deg,#7c4500,var(--gold))"><span class="month">Dec</span><span class="day">20</span><span class="year">2026</span></div>
+                    <div class="event-info">
+                        <h4>2009 Batch Reunion</h4>
+                        <div class="location">📍 Peddapalli Town Hall</div>
+                        <p>Special reunion for the founding batch. Relive 2009 and celebrate 17 years together!</p>
+                        <button class="rsvp-btn">RSVP Now →</button>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal-right">
+                <h3 class="events-col-title">📰 Campus News</h3>
+                <div class="news-card">
+                    <div class="news-thumb" style="background:linear-gradient(135deg,#1a3260,#0f1f3d)">🏆<span class="news-tag">Achievement</span></div>
+                    <div class="news-body">
+                        <h4>15 Students Secure Top SSC Ranks in Telangana 2026</h4>
+                        <p>A proud moment as Pragathi students achieved perfect GPA scores, continuing a tradition of excellence.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-thumb" style="background:linear-gradient(135deg,#0f3460,#0a6a3a)">🌟<span class="news-tag" style="background:#16a34a;color:#fff">Alumni Story</span></div>
+                    <div class="news-body">
+                        <h4>Alumnus of the Month: Suman Gupta (2009) Leads Hyderabad Tech Startup</h4>
+                        <p>Suman credits his problem-solving mindset to values instilled at Pragathi High School.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-thumb" style="background:linear-gradient(135deg,#1e3a5f,#1e40af)">📚<span class="news-tag" style="background:#3b82f6;color:#fff">Update</span></div>
+                    <div class="news-body">
+                        <h4>New School Library Inaugurated — Donated by Alumni</h4>
+                        <p>Alumni from multiple batches pooled contributions to gift a fully-equipped digital library.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════ REGISTER ══════════════ -->
+<section id="register" class="section register-bg">
+    <div class="page-wrap-sm" style="position:relative;z-index:1;">
+        <div class="section-header reveal">
+            <div class="section-tag" style="color:var(--gold-light)">Join Us</div>
+            <h2 class="section-title" style="color:#fff">Join the Pragathi Alumni Network</h2>
+            <div class="section-divider"></div>
+            <p class="section-sub" style="color:#475569">Register to stay connected with your batch and the school community.</p>
+        </div>
+        <div class="form-box reveal">
+            <form id="regForm">
+                <div class="form-row">
+                    <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name" required></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>SSC Batch Year</label>
+                        <select required>
+                            <option value="">Select your batch year</option>
+                            <option>2026</option><option>2025</option><option>2024</option><option>2023</option>
+                            <option>2022</option><option>2021</option><option>2020</option><option>2019</option>
+                            <option>2018</option><option>2017</option><option>2016</option><option>2015</option>
+                            <option>2014</option><option>2013</option><option>2012</option><option>2011</option>
+                            <option>2010</option><option>2009</option><option>2008</option><option>2007</option>
+                            <option>Older</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Current Profession</label><input type="text" placeholder="e.g. Software Engineer"></div>
+                </div>
+                <div class="form-group"><label>Current City / Location</label><input type="text" placeholder="e.g. Hyderabad, Telangana"></div>
+                <div class="form-group"><label>A message for your batchmates</label><textarea placeholder="Share a memory, a greeting, or your story..."></textarea></div>
+                <button type="submit" class="submit-btn">Submit Registration ✦</button>
+                <p style="text-align:center;color:#334155;font-size:0.75rem;margin-top:1rem;">Your data is secure and used only for alumni communication.</p>
+            </form>
+            <div class="success-box" id="successBox">
+                <div class="success-icon">✨</div>
+                <h3>Welcome Back, Champ!</h3>
+                <p style="color:#64748b;margin-top:0.5rem;">Registration successful! We'll verify your details and add you to the directory soon.</p>
+                <button class="btn-primary" style="margin-top:1.75rem;" onclick="navigate('directory')">Explore the Directory</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">Pragathi Alumni</div>
+                <p class="footer-desc">Connecting Pragathi Champs across the globe. Fostering a community of excellence, nostalgia, and mutual support — initiated by the Class of 2009.</p>
+                <div class="footer-social">
+                    <a class="social-link" href="#" title="Facebook">f</a>
+                    <a class="social-link" href="#" title="Instagram">ig</a>
+                    <a class="social-link" href="#" title="LinkedIn">in</a>
+                    <a class="social-link" href="#" title="WhatsApp">wa</a>
+                </div>
+            </div>
+            <div>
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><button onclick="navigate('about')">About Our School</button></li>
+                    <li><button onclick="navigate('directory')">Alumni Directory</button></li>
+                    <li><button onclick="navigate('events')">Events & News</button></li>
+                    <li><button onclick="navigate('register')">Register / Join</button></li>
+                </ul>
+            </div>
+            <div>
+                <h5>Contact</h5>
+                <ul class="footer-links">
+                    <li><span style="color:#334155;font-size:0.875rem;">📍 Centenary Colony,<br>Peddapalli, Telangana</span></li>
+                    <li><span style="color:#334155;font-size:0.875rem;">✉️ alumni@pragathihigh.edu</span></li>
+                    <li><span style="color:#334155;font-size:0.875rem;">📞 +91 XXXXX XXXXX</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 Pragathi Alumni Network. All rights reserved.</p>
+            <div class="initiated-badge">⭐ Initiated by 2009 SSC Batch</div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ── Alumni Data ── */
+    const alumniData = [
+        { name:"Deepika Reddy", batch:"2009", role:"Data Scientist, TCS", email:"deepika.r@example.com", initial:"D", bg:"#fef3c7", text:"#92400e" },
+        { name:"Rahul Sharma", batch:"2010", role:"Software Engineer, Infosys", email:"rahul.s@example.com", initial:"R", bg:"#dbeafe", text:"#1e40af" },
+        { name:"Priya Rao", batch:"2011", role:"Medical Officer, Apollo", email:"priya.rao@example.com", initial:"P", bg:"#d1fae5", text:"#065f46" },
+        { name:"Karthik Goud", batch:"2009", role:"Startup Founder", email:"karthik.g@example.com", initial:"K", bg:"#fce7f3", text:"#9d174d" },
+        { name:"Swathi Nair", batch:"2012", role:"Financial Analyst, Deloitte", email:"swathi.n@example.com", initial:"S", bg:"#ede9fe", text:"#4c1d95" },
+        { name:"Arjun Verma", batch:"2008", role:"Civil Engineer, L&T", email:"arjun.v@example.com", initial:"A", bg:"#ffedd5", text:"#7c2d12" },
+        { name:"Neha Krishna", batch:"2015", role:"Product Designer, Adobe", email:"neha.k@example.com", initial:"N", bg:"#ecfdf5", text:"#064e3b" },
+        { name:"Vikram Singh", batch:"2009", role:"Data Analyst, Wipro", email:"vikram.s@example.com", initial:"V", bg:"#cffafe", text:"#164e63" },
+        { name:"Anjali Desai", batch:"2013", role:"Marketing Manager", email:"anjali.d@example.com", initial:"A", bg:"#fdf4ff", text:"#6b21a8" },
+        { name:"Manish Patel", batch:"2011", role:"Civil Servant, IAS", email:"manish.p@example.com", initial:"M", bg:"#f0fdf4", text:"#14532d" },
+        { name:"Lakshmi Iyer", batch:"2008", role:"Professor, JNTUH", email:"lakshmi.i@example.com", initial:"L", bg:"#fff7ed", text:"#7c2d12" },
+        { name:"Suman Gupta", batch:"2009", role:"Tech Entrepreneur", email:"suman.g@example.com", initial:"S", bg:"#fef9c3", text:"#713f12" },
+    ];
+
+    function renderAlumni(data) {
+        const grid = document.getElementById('alumniGrid');
+        if (!data.length) {
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#64748b;">No alumni found. Try a different search.</div>';
+            return;
+        }
+        grid.innerHTML = data.map((a, i) => `
+            <div class="alumni-card reveal" style="transition-delay:${i * 0.05}s">
+                <div class="alumni-avatar" style="background:${a.bg};color:${a.text}">${a.initial}</div>
+                <div class="alumni-batch">Class of '${a.batch.slice(-2)}</div>
+                <div class="alumni-name">${a.name}</div>
+                <div class="alumni-role">${a.role}</div>
+                <div class="alumni-email">✉️ <a href="mailto:${a.email}" style="color:inherit;text-decoration:none;">${a.email}</a></div>
+            </div>`).join('');
+        observeElements();
+    }
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+        const q = e.target.value.toLowerCase();
+        renderAlumni(alumniData.filter(a =>
+            a.name.toLowerCase().includes(q) || a.batch.includes(q) || a.role.toLowerCase().includes(q)
+        ));
+    });
+
+    /* ── Navigation ── */
+    function navigate(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(id);
+        if (target) { target.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        document.querySelectorAll('.nav-btn[data-target]').forEach(b => b.classList.toggle('active', b.dataset.target === id));
+        document.getElementById('mobileMenu').classList.remove('open');
+        setTimeout(observeElements, 100);
+    }
+
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+    /* ── Navbar scroll effect ── */
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+    document.getElementById('navbar').classList.add('scrolled'); // start scrolled since we're in SPA
+
+    /* ── Scroll Reveal ── */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    function observeElements() {
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+    }
+    observeElements();
+
+    /* ── Counter Animation ── */
+    function animateCounters() {
+        document.querySelectorAll('.counting').forEach(el => {
+            const target = parseInt(el.dataset.target);
+            let current = 0;
+            const step = Math.ceil(target / 40);
+            const timer = setInterval(() => {
+                                current = Math.min(current + step, target);
+                el.textContent = current;
+
+                if (current >= target) {
+                    clearInterval(timer);
+                }
+            }, 40);
+        });
+    }
+
+    /* ── Floating Particles ── */
+    function createParticles() {
+        const container = document.getElementById('particles');
+
+        for (let i = 0; i < 30; i++) {
+
+            const p = document.createElement('div');
+
+            p.className = 'particle';
+
+            const size = Math.random() * 4 + 2;
+
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+
+            p.style.left = Math.random() * 100 + '%';
+
+            p.style.animationDelay =
+                Math.random() * 8 + 's';
+
+            p.style.animationDuration =
+                (Math.random() * 10 + 8) + 's';
+
+            container.appendChild(p);
+        }
+    }
+
+    /* ── Registration Form ── */
+    document
+        .getElementById('regForm')
+        .addEventListener('submit', function(e) {
+
+        e.preventDefault();
+
+        document.getElementById('regForm').style.display = 'none';
+
+        document.getElementById('successBox').style.display = 'block';
+
+        setTimeout(() => {
+            navigate('directory');
+        }, 2500);
+
+    });
+
+    /* ── Initialize App ── */
+
+    renderAlumni(alumniData);
+
+    animateCounters();
+
+    createParticles();
+
+</script>
+
+</body>
+</html>
