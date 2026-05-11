@@ -1,83 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pragathi Alumni</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
-background:#050505;
+background:#010101;
 color:white;
-font-family:Inter,sans-serif;
+font-family:sans-serif;
 overflow-x:hidden;
 }
 
 /* GLASS */
 .glass{
 background:rgba(255,255,255,0.05);
-backdrop-filter:blur(16px);
+backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 40px rgba(0,0,0,0.4);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 
-/* TEXT */
+/* GRADIENT TEXT */
 .gradient-text{
 background:linear-gradient(135deg,#FA93FA,#C967E8,#983AD6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-/* HERO BG */
+/* BUTTONS */
+.btn{
+transition:0.3s ease;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 35px rgba(201,103,232,0.35);
+}
+
+/* HERO BACKGROUND */
 .hero-bg{
 position:absolute;
 inset:0;
 background:
-radial-gradient(circle at top left,#983AD633,transparent 30%),
-radial-gradient(circle at bottom right,#FA93FA22,transparent 30%);
+radial-gradient(circle at top left,#983AD622,transparent 35%),
+radial-gradient(circle at bottom right,#FA93FA22,transparent 35%);
 z-index:-1;
 }
 
-/* BUTTON */
-.glow-btn{
-transition:0.3s ease;
-}
-
-.glow-btn:hover{
-transform:translateY(-3px);
-box-shadow:0 10px 40px rgba(201,103,232,0.45);
-}
-
 /* CARD */
-.card-hover{
+.card{
 transition:0.3s ease;
 }
 
-.card-hover:hover{
-transform:translateY(-5px);
-}
-
-/* NAV */
-.nav-link{
-transition:0.2s ease;
-}
-
-.nav-link:hover{
-color:white;
+.card:hover{
+transform:translateY(-4px);
 }
 
 /* INPUTS */
@@ -96,22 +82,15 @@ border:1px solid #C967E8;
 box-shadow:0 0 20px rgba(201,103,232,0.2);
 }
 
-/* LOADER */
-.loader{
-width:40px;
-height:40px;
-border:4px solid rgba(255,255,255,0.2);
-border-top:4px solid #C967E8;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto;
+/* NAV */
+.nav-btn{
+transition:0.2s ease;
 }
 
-@keyframes spin{
-100%{
-transform:rotate(360deg);
+.nav-btn:hover{
+color:white;
 }
-}
+
 </style>
 </head>
 
@@ -121,22 +100,34 @@ transform:rotate(360deg);
 
 <!-- NAVBAR -->
 <nav class="sticky top-0 z-50 backdrop-blur-xl bg-black/30 border-b border-white/5">
-<div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
-<h1 class="text-2xl font-bold gradient-text">
+<div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
+
+<h1 class="text-3xl font-bold gradient-text">
 Pragathi Alumni
 </h1>
 
-<div class="flex gap-6 text-white/70 text-sm">
-<button class="nav-link" onclick="navigate('home')">Home</button>
-<button class="nav-link" onclick="navigate('directory')">Directory</button>
-<button class="nav-link" onclick="navigate('register')">Register</button>
+<div class="flex gap-6 text-white/70">
+
+<button onclick="navigate('home')" class="nav-btn">
+Home
+</button>
+
+<button onclick="navigate('directory')" class="nav-btn">
+Directory
+</button>
+
+<button onclick="navigate('register')" class="nav-btn">
+Register
+</button>
+
 </div>
 
 </div>
+
 </nav>
 
-<!-- HERO -->
+<!-- HOME -->
 <section id="home" class="min-h-screen flex items-center justify-center px-6">
 
 <div class="text-center max-w-4xl">
@@ -154,22 +145,22 @@ Pragathi Alumni
 </h1>
 
 <p class="mt-8 text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
-Join the official Pragathi Alumni Network to reconnect with friends,
-share memories, build opportunities, and grow together.
+Reconnect with Pragathi alumni, share memories,
+build opportunities, and grow together.
 </p>
 
 <div class="mt-10 flex flex-wrap gap-4 justify-center">
 
 <button
 onclick="navigate('register')"
-class="glow-btn px-8 py-4 rounded-full font-semibold text-black bg-white"
+class="btn px-8 py-4 rounded-full font-semibold text-black bg-white"
 >
 Join Alumni
 </button>
 
 <button
 onclick="navigate('directory')"
-class="glow-btn px-8 py-4 rounded-full glass"
+class="btn px-8 py-4 rounded-full glass"
 >
 Explore Directory
 </button>
@@ -200,10 +191,6 @@ class="input max-w-sm"
 
 </div>
 
-<div id="loader" class="py-10 hidden">
-<div class="loader"></div>
-</div>
-
 <div
 id="alumniGrid"
 class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -221,25 +208,29 @@ class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 <div class="glass rounded-3xl p-8 md:p-10">
 
 <h2 class="text-4xl font-bold gradient-text mb-8">
-Join Alumni Network
+Join Alumni
 </h2>
 
 <form id="regForm" class="space-y-5">
 
 <input class="input" placeholder="Full Name" required />
+
 <input class="input" type="email" placeholder="Email Address" required />
-<input class="input" placeholder="SSC Batch Year" required />
+
+<input class="input" placeholder="Batch Year" required />
+
 <input class="input" placeholder="Current Role" />
+
 <input class="input" placeholder="Current Location" />
 
 <textarea
 class="input min-h-[120px]"
-placeholder="Share your memories..."
+placeholder="Message"
 ></textarea>
 
 <button
 type="submit"
-class="w-full py-4 rounded-2xl font-bold text-lg bg-gradient-to-r from-[#FA93FA] via-[#C967E8] to-[#983AD6] glow-btn"
+class="btn w-full py-4 rounded-2xl font-bold text-lg bg-gradient-to-r from-[#FA93FA] via-[#C967E8] to-[#983AD6]"
 >
 Submit Registration
 </button>
@@ -254,7 +245,7 @@ Submit Registration
 
 <!-- FOOTER -->
 <footer class="border-t border-white/5 py-8 text-center text-white/40 text-sm">
-© 2026 Pragathi Alumni Network. All rights reserved.
+© 2026 Pragathi Alumni Network
 </footer>
 
 <!-- FIREBASE -->
@@ -273,22 +264,32 @@ orderBy
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+/* FIREBASE CONFIG */
 const firebaseConfig = {
+
 apiKey: "AIzaSyALHYLUPn7gZ-5noOG5EeuHa6DZXtrStkM",
+
 authDomain: "pragathi-alumni.firebaseapp.com",
+
 projectId: "pragathi-alumni",
+
 storageBucket: "pragathi-alumni.appspot.com",
+
 messagingSenderId: "123456789",
+
 appId: "1:123456789:web:abcdef"
+
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 const form = document.getElementById("regForm");
-const grid = document.getElementById("alumniGrid");
-const loader = document.getElementById("loader");
 
+const grid = document.getElementById("alumniGrid");
+
+/* FORM SUBMIT */
 form.addEventListener("submit", async (e)=>{
 
 e.preventDefault();
@@ -298,13 +299,21 @@ const inputs = form.querySelectorAll("input, textarea");
 try{
 
 await addDoc(collection(db,"alumni"),{
+
 name:inputs[0].value,
+
 email:inputs[1].value,
+
 batch:inputs[2].value,
+
 role:inputs[3].value,
+
 location:inputs[4].value,
+
 message:inputs[5].value,
+
 createdAt:new Date()
+
 });
 
 alert("✅ Registration Successful!");
@@ -319,15 +328,14 @@ loadAlumni();
 
 console.error(err);
 
-alert("❌ Something went wrong.");
+alert("❌ Error saving data");
 
 }
 
 });
 
+/* LOAD ALUMNI */
 async function loadAlumni(){
-
-loader.classList.remove("hidden");
 
 grid.innerHTML = "";
 
@@ -343,41 +351,61 @@ snapshot.forEach((doc)=>{
 const a = doc.data();
 
 grid.innerHTML += `
-<div class="glass rounded-3xl p-6 card-hover">
 
-<div class="flex items-center justify-between mb-4">
-<h3 class="text-xl font-bold">${a.name}</h3>
-<span class="text-xs px-3 py-1 rounded-full bg-white/10">
-${a.batch}
-</span>
-</div>
+<div class="glass rounded-3xl p-6 card">
 
-<p class="text-white/60">
+<h3 class="text-xl font-bold">
+${a.name}
+</h3>
+
+<p class="text-white/60 mt-2">
 ${a.role || "Alumni Member"}
 </p>
 
-<p class="text-sm mt-3 text-white/40">
-📍 ${a.location || "Unknown"}
-</p>
-
-<p class="text-sm mt-2 break-all text-purple-300">
+<p class="text-sm mt-3 text-purple-300 break-all">
 ${a.email}
 </p>
 
+<p class="text-sm text-white/40 mt-2">
+📍 ${a.location || "Unknown"}
+</p>
+
+<p class="text-xs mt-4 inline-block px-3 py-1 rounded-full bg-white/10">
+Batch ${a.batch}
+</p>
+
 </div>
+
 `;
 
 });
 
-loader.classList.add("hidden");
-
 }
 
+/* SEARCH */
+document.getElementById("search").addEventListener("input",(e)=>{
+
+const value = e.target.value.toLowerCase();
+
+const cards = document.querySelectorAll("#alumniGrid > div");
+
+cards.forEach(card=>{
+
+card.style.display =
+card.innerText.toLowerCase().includes(value)
+? "block"
+: "none";
+
+});
+
+});
+
+/* NAVIGATION */
 window.navigate = function(id){
 
+document.getElementById("home").classList.add("hidden");
 document.getElementById("directory").classList.add("hidden");
 document.getElementById("register").classList.add("hidden");
-document.getElementById("home").classList.add("hidden");
 
 document.getElementById(id).classList.remove("hidden");
 
@@ -388,23 +416,7 @@ behavior:"smooth"
 
 };
 
-document.getElementById("search").addEventListener("input",(e)=>{
-
-const val = e.target.value.toLowerCase();
-
-const cards = document.querySelectorAll("#alumniGrid > div");
-
-cards.forEach(card=>{
-
-card.style.display =
-card.innerText.toLowerCase().includes(val)
-? "block"
-: "none";
-
-});
-
-});
-
+/* INITIAL LOAD */
 loadAlumni();
 
 </script>
